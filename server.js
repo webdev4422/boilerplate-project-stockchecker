@@ -18,6 +18,12 @@ app.route('/').get(function (req, res) {
   res.sendFile(process.cwd() + '/views/index.html')
 })
 
+// Set Content-Security-Policy https://content-security-policy.com/
+app.use(function (req, res, next) {
+  res.set('Content-Security-Policy', "default-src 'none'; script-src 'self'; style-src 'self'")
+  next()
+})
+
 //For FCC testing purposes
 fccTestingRoutes(app)
 
