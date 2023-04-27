@@ -28,12 +28,43 @@
     "method": "GET",
     "sortNum": 0,
     "created": "2023-04-27T08:38:33.485Z",
-    "modified": "2023-04-27T08:38:33.485Z",
+    "modified": "2023-04-27T13:21:12.339Z",
     "headers": [],
     "params": [
       {
         "name": "stock",
         "value": "goog",
+        "isPath": false
+      },
+      {
+        "name": "stock",
+        "value": "msft",
+        "isDisabled": true,
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "c9362cd6-d87f-4bdc-b49a-6b2e6232ff87",
+    "colId": "history",
+    "containerId": "",
+    "name": "localhost:3000/api/stock-prices?stock=goog&stock=msft",
+    "url": "localhost:3000/api/stock-prices?stock=goog&stock=msft",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2023-04-27T13:21:03.009Z",
+    "modified": "2023-04-27T13:21:03.009Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "stock",
+        "value": "goog",
+        "isPath": false
+      },
+      {
+        "name": "stock",
+        "value": "msft",
         "isPath": false
       }
     ],
