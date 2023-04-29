@@ -6,8 +6,10 @@ const cors = require('cors')
 const apiRoutes = require('./routes/api.js')
 const fccTestingRoutes = require('./routes/fcctesting.js')
 const runner = require('./test-runner')
+const helmet = require('helmet')
 const app = express()
 
+app.use(helmet()) // Express.js security with HTTP headers
 app.use('/public', express.static(process.cwd() + '/public'))
 app.use(cors({ origin: '*' })) //For FCC testing purposes only
 app.use(bodyParser.json())
@@ -19,6 +21,7 @@ app.route('/').get(function (req, res) {
 })
 
 // Set Content-Security-Policy https://content-security-policy.com/
+// Alternative with helmet app.use(helmet.contentSecurityPolicy({ directives: { 'script-src': ["'self'"], 'style-src': ["'self'"] } }))
 app.use(function (req, res, next) {
   console.log('request url', req.url)
   res.set('Content-Security-Policy', "default-src 'none'; script-src 'self'; style-src 'self'")
