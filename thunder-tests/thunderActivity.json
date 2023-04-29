@@ -34,11 +34,11 @@
     "colId": "history",
     "containerId": "",
     "name": "goog false localhost:3000/api/stock-prices?stock=goog&like=false",
-    "url": "localhost:3000/api/stock-prices?stock=goog",
+    "url": "localhost:3000/api/stock-prices?stock=goog&like=false",
     "method": "GET",
     "sortNum": 0,
     "created": "2023-04-27T13:21:03.009Z",
-    "modified": "2023-04-29T09:56:16.398Z",
+    "modified": "2023-04-29T12:23:20.376Z",
     "headers": [],
     "params": [
       {
@@ -49,7 +49,6 @@
       {
         "name": "like",
         "value": "false",
-        "isDisabled": true,
         "isPath": false
       }
     ],

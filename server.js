@@ -20,7 +20,7 @@ app.route('/').get(function (req, res) {
 
 // Set Content-Security-Policy https://content-security-policy.com/
 app.use(function (req, res, next) {
-  // console.log(req.url)
+  console.log(req.url)
   res.set('Content-Security-Policy', "default-src 'none'; script-src 'self'; style-src 'self'")
   next()
 })

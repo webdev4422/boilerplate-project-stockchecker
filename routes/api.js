@@ -27,14 +27,20 @@ module.exports = function (app) {
             stockLikes[req.query.stock]['likes']++
             stockLikes[req.query.stock]['ips'].push(req.ip)
           }
+          // Do nothings
         } else {
-          stockLikes[req.query.stock] = {
-            likes: 0,
-            ips: [],
+          if (req.query.like === 'true') {
+            stockLikes[req.query.stock] = {
+              likes: 1,
+              ips: [req.ip],
+            }
+          } else {
+            stockLikes[req.query.stock] = {
+              likes: 0,
+              ips: [],
+            }
           }
         }
-        console.log(stockLikes)
-
         let data = await fetch(`https://stock-price-checker-proxy.freecodecamp.rocks/v1/stock/${req.query.stock}/quote`).then((rawData) => rawData.json())
         res.json({ stockData: { stock: data.symbol, price: data.latestPrice, likes: stockLikes[req.query.stock]['likes'] } })
         // res.json({ stockData: { stock: data.symbol, price: data.latestPrice, likes: 0 } })
@@ -42,17 +48,53 @@ module.exports = function (app) {
         // Return {"stockData":[{"stock":"MSFT","price":295.37,"rel_likes":820},{"stock":"GOOG","price":104.45,"rel_likes":-820}]}
         // Check if multiple query parameters with the same name (/api/stock-prices?stock=goog&stock=msft), req.query[paramName] will return an array
       } else if (Array.isArray(req.query.stock)) {
+        // 'likes' system
+        if (stockLikes.hasOwnProperty(req.query.stock)) {
+          if (req.query.like === 'true' && !stockLikes[req.query.stock]['ips'].includes(req.ip)) {
+            stockLikes[req.query.stock[0]]['likes']++
+            stockLikes[req.query.stock[0]]['ips'].push(req.ip)
+            stockLikes[req.query.stock[1]]['likes']++
+            stockLikes[req.query.stock[1]]['ips'].push(req.ip)
+          }
+          // Do nothings
+        } else {
+          if (req.query.like === 'true') {
+            stockLikes[req.query.stock[0]] = {
+              likes: 1,
+              ips: [req.ip],
+            }
+            stockLikes[req.query.stock[1]] = {
+              likes: 1,
+              ips: [req.ip],
+            }
+          } else {
+            stockLikes[req.query.stock[0]] = {
+              likes: 6,
+              ips: [],
+            }
+            stockLikes[req.query.stock[1]] = {
+              likes: 2,
+              ips: [],
+            }
+          }
+        }
         let data0 = await fetch(`https://stock-price-checker-proxy.freecodecamp.rocks/v1/stock/${req.query.stock[0]}/quote`).then((rawData) => rawData.json())
         let data1 = await fetch(`https://stock-price-checker-proxy.freecodecamp.rocks/v1/stock/${req.query.stock[1]}/quote`).then((rawData) => rawData.json())
+
+        // Calculate difference between the likes on both stocks
+        let relLikes0 = stockLikes[req.query.stock[0]]['likes'] - stockLikes[req.query.stock[1]]['likes']
+        let relLikes1 = stockLikes[req.query.stock[1]]['likes'] - stockLikes[req.query.stock[0]]['likes']
+
         res.json({
           stockData: [
-            { stock: data0.symbol, price: data0.latestPrice, rel_likes: stockLikes[req.query.stock[0]] },
-            { stock: data1.symbol, price: data1.latestPrice, rel_likes: stockLikes[req.query.stock[1]] },
+            { stock: data0.symbol, price: data0.latestPrice, rel_likes: relLikes0 },
+            { stock: data1.symbol, price: data1.latestPrice, rel_likes: relLikes1 },
           ],
         })
       } else {
         res.json({ stockData: 'query is empty' })
       }
+      // console.log(stockLikes)
     }
   )
 }
