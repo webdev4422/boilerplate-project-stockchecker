@@ -20,6 +20,7 @@ app.route('/').get(function (req, res) {
 
 // Set Content-Security-Policy https://content-security-policy.com/
 app.use(function (req, res, next) {
+  // console.log(req.url)
   res.set('Content-Security-Policy', "default-src 'none'; script-src 'self'; style-src 'self'")
   next()
 })
@@ -47,7 +48,7 @@ const listener = app.listen(process.env.PORT || 3000, function () {
         console.log('Tests are not valid:')
         console.error(e)
       }
-    }, 3500)
+    }, 1500) // 3500
   }
 })
 
