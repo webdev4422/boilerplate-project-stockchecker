@@ -6,37 +6,58 @@ let should = chai.should() // Use different assertion style "should" (BDD ?)
 
 chai.use(chaiHttp)
 
-/*
-
-Viewing one stock and liking it: GET request to /api/stock-prices/
-Viewing the same stock and liking it again: GET request to /api/stock-prices/
-Viewing two stocks: GET request to /api/stock-prices/
-Viewing two stocks and liking them: GET request to /api/stock-prices/
-*/
+// Tests based on this json, that has been gotten from https://stock-price-checker.freecodecamp.rocks/_api/get-tests by myself
 suite('Functional Tests', function () {
   // Viewing one stock: GET request to /api/stock-prices/
   describe('GET /api/stock-prices?stock=goog', () => {
-    it('should return object', (done) => {
+    it('1. Should pass test "1 stock"', (done) => {
       chai
         .request(server)
-        .get('/api/stock-prices')
-        .query({
-          stock: 'goog',
-        })
+        .get('/api/stock-prices?stock=goog')
         .end((err, res) => {
           res.status.should.be.equal(200)
-          // res.body.should.be.a('object')
-          // res.body.should.have.property('stockData')
-          // res.body.stockData.should.have.property('stock')
-          // res.body.stockData.should.have.property('price')
-          // res.body.stockData.should.have.property('likes')
-          // res.body.stockData.stock.should.be.equal('goog')
-          // console.log(res.body)
-          done()
+          res.body.stockData.should.have.property('stock')
+          res.body.stockData.should.have.property('price')
+          res.body.stockData.should.have.property('likes')
+          res.body.stockData.stock.should.be.equal('GOOG')
         })
+      done()
     })
   })
+
+  // Viewing one stock and liking it: GET request to /api/stock-prices/
+  // TODO: NOT WORK, need to implement 'likes' system
+  describe('GET /api/stock-prices?stock=goog&like=true', () => {
+    it('2. Should pass test "1 stock with like"', (done) => {
+      chai
+        .request(server)
+        .get('/api/stock-prices?stock=goog&like=true')
+        .end((err, res) => {
+          res.status.should.be.equal(200)
+          res.body.stockData.should.have.property('stock')
+          res.body.stockData.should.have.property('price')
+          res.body.stockData.should.have.property('likes')
+          res.body.stockData.stock.should.be.equal('GOOG')
+          assert.isAbove(res.body.stockData.likes, 0, 'is above 0')
+        })
+      done()
+    })
+  })
+
+  // Viewing the same stock and liking it again: GET request to /api/stock-prices/
+  // describe('GET /api/stock-prices?stock=goog', () => {
+  //   it('3. Should pass test "1 stock with like again (ensure likes arent double counted)"', (done) => {
+  // l    chai
+  //       .request(server)
+  //       .get('/api/stock-prices?stock=goog')
+  //       .end((err, res) => {
+  //         res.body.stockData.likes.should.be.equal(res.body.stockData.likes)
+  //       })
+  //     done()
+  //   })
+  // })
+
+  // Viewing two stocks: GET request to /api/stock-prices/
+
+  // Viewing two stocks and liking them: GET request to /api/stock-prices/
 })
-// TODO make assert chai to check if res.status is equal to object
-// assert.typeOf(chai.request(server).get('/api/stock-prices').end(res), 'object', 'foo is a json')
-// assert.equal(chai.requestres.status, 'object', 'foo is a object')
