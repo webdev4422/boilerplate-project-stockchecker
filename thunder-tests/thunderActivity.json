@@ -3,12 +3,12 @@
     "_id": "c9362cd6-d87f-4bdc-b49a-6b2e6232ff87",
     "colId": "history",
     "containerId": "",
-    "name": "localhost:3000/api/stock-prices?stock=goog&stock=msft",
-    "url": "localhost:3000/api/stock-prices?stock=goog",
+    "name": "goog msft true localhost:3000/api/stock-prices?stock=goog&stock=msftlike=true",
+    "url": "localhost:3000/api/stock-prices?stock=goog&stock=msft&like=true",
     "method": "GET",
     "sortNum": 0,
     "created": "2023-04-27T13:21:03.009Z",
-    "modified": "2023-04-28T16:37:14.902Z",
+    "modified": "2023-04-29T08:51:29.461Z",
     "headers": [],
     "params": [
       {
@@ -19,7 +19,92 @@
       {
         "name": "stock",
         "value": "msft",
+        "isPath": false
+      },
+      {
+        "name": "like",
+        "value": "true",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "43a4134d-01c7-434a-952e-9c4d29ec1407",
+    "colId": "history",
+    "containerId": "",
+    "name": "goog false localhost:3000/api/stock-prices?stock=goog&like=false",
+    "url": "localhost:3000/api/stock-prices?stock=goog",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2023-04-27T13:21:03.009Z",
+    "modified": "2023-04-29T09:40:32.914Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "stock",
+        "value": "goog",
+        "isPath": false
+      },
+      {
+        "name": "like",
+        "value": "false",
         "isDisabled": true,
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "094e417b-88b7-4008-bfce-7ce3f835c07a",
+    "colId": "history",
+    "containerId": "",
+    "name": "goog true localhost:3000/api/stock-prices?stock=goog&like=true",
+    "url": "localhost:3000/api/stock-prices?stock=goog&like=true",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2023-04-27T13:21:03.009Z",
+    "modified": "2023-04-29T09:15:21.919Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "stock",
+        "value": "goog",
+        "isPath": false
+      },
+      {
+        "name": "like",
+        "value": "true",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  },
+  {
+    "_id": "5f374674-4ecc-4a41-93c9-3360f64d8a9b",
+    "colId": "history",
+    "containerId": "",
+    "name": "goog msft false localhost:3000/api/stock-prices?stock=goog&stock=msftlike=false",
+    "url": "localhost:3000/api/stock-prices?stock=goog&stock=msft&like=false",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2023-04-27T13:21:03.009Z",
+    "modified": "2023-04-29T08:49:52.408Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "stock",
+        "value": "goog",
+        "isPath": false
+      },
+      {
+        "name": "stock",
+        "value": "msft",
+        "isPath": false
+      },
+      {
+        "name": "like",
+        "value": "false",
         "isPath": false
       }
     ],
@@ -29,7 +114,7 @@
     "_id": "324dee18-83a2-460d-b940-56c67f96d8f2",
     "colId": "history",
     "containerId": "",
-    "name": "localhost:3000/_api/get-tests",
+    "name": "get-tests localhost:3000/_api/get-tests",
     "url": "localhost:3000/_api/get-tests",
     "method": "GET",
     "sortNum": 0,
