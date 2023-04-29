@@ -23,13 +23,14 @@ suite('Functional Tests', function () {
           res.body.stockData[1].should.have.property('stock')
           res.body.stockData[1].should.have.property('price')
           res.body.stockData[1].should.have.property('rel_likes')
-          assert.oneOf(res.body.stockData[0], ['GOOG', 'MSFT'], 'is in array')
-          assert.oneOf(res.body.stockData[1], ['GOOG', 'MSFT'], 'is in array')
+          assert.oneOf(res.body.stockData[0].stock, ['GOOG', 'MSFT'], 'is in array')
+          assert.oneOf(res.body.stockData[1].stock, ['GOOG', 'MSFT'], 'is in array')
           ;(res.body.stockData[0].rel_likes + res.body.stockData[1].rel_likes).should.be.equal(0)
         })
       done()
     })
   })
+
   // Viewing two stocks: GET request to /api/stock-prices/
   describe('GET /api/stock-prices?stock=goog&stock=msft&like=false', () => {
     it('4. Should pass test "2 stocks"', (done) => {
@@ -45,14 +46,9 @@ suite('Functional Tests', function () {
           res.body.stockData[1].should.have.property('stock')
           res.body.stockData[1].should.have.property('price')
           res.body.stockData[1].should.have.property('rel_likes')
-          assert.oneOf(res.body.stockData[0], ['GOOG', 'MSFT'], 'is in array')
-          assert
-            .oneOf(
-              res.body.stockData[1],
-              ['GOOG', 'MSFT'],
-              'is in array'
-            )(res.body.stockData[0].rel_likes + res.body.stockData[1].rel_likes)
-            .should.be.equal(0)
+          assert.oneOf(res.body.stockData[0].stock, ['GOOG', 'MSFT'], 'is in array')
+          assert.oneOf(res.body.stockData[1].stock, ['GOOG', 'MSFT'], 'is in array')
+          ;(res.body.stockData[0].rel_likes + res.body.stockData[1].rel_likes).should.be.equal(0)
         })
       done()
     })
@@ -60,7 +56,7 @@ suite('Functional Tests', function () {
 
   // Viewing the same stock and liking it again: GET request to /api/stock-prices/
   describe('GET /api/stock-prices?stock=goog&like=true', () => {
-    it('3. Should pass test "1 stock with like again (ensure likes arent double counted)"', (done) => {
+    it('3. Should pass test "1 stock with like(ensure likes arent double counted)"', (done) => {
       chai
         .request(server)
         .get('/api/stock-prices?stock=goog&like=true')
@@ -70,14 +66,13 @@ suite('Functional Tests', function () {
           res.body.stockData.should.have.property('price')
           res.body.stockData.should.have.property('likes')
           res.body.stockData.stock.should.be.equal('GOOG')
-          res.body.stockData.likes.should.be.equal(res.body.stockData.likes)
+          assert.equal(res.body.stockData.likes, res.body.stockData.likes, 'likes = likes')
         })
       done()
     })
   })
 
   // Viewing one stock and liking it: GET request to /api/stock-prices/
-  // TODO: NOT WORK, need to implement 'likes' system
   describe('GET /api/stock-prices?stock=goog&like=true', () => {
     it('2. Should pass test "1 stock with like"', (done) => {
       chai
@@ -106,7 +101,8 @@ suite('Functional Tests', function () {
           res.body.stockData.should.have.property('stock')
           res.body.stockData.should.have.property('price')
           res.body.stockData.should.have.property('likes')
-          res.body.stockData.stock.should.be.equal('GOOG')
+          assert.equal(res.body.stockData.stock, 'GOOG', 'stock = GOOG')
+          // res.body.stockData.stock.should.be.equal('GOOG')
         })
       done()
     })
