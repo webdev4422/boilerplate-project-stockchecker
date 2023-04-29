@@ -98,7 +98,8 @@ module.exports = function (app) {
       } else {
         res.json({ stockData: 'query is empty' })
       }
-      console.log(stockLikes)
+      // console.log('Request was made to:', req.url)
+      // console.log('stockLikes object:', stockLikes)
     }
   )
 }
