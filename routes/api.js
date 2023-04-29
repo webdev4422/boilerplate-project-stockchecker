@@ -19,20 +19,23 @@ module.exports = function (app) {
   app.route('/api/stock-prices').get(
     // Use async function allow to use await inside
     async (req, res) => {
+      // Get users ips
+      let userIp = ((await req.headers['x-forwarded-for']) || req.connection.remoteAddress).toString()
+      console.log(typeof userIp)
       // Return {"stockData":{"stock":"GOOG","price":104.45,"likes":1585}}
       if (typeof req.query.stock === 'string') {
         // 'likes' system
         if (stockLikes.hasOwnProperty(req.query.stock)) {
-          if (req.query.like === 'true' && !stockLikes[req.query.stock]['ips'].includes(req.ip)) {
+          if (req.query.like === 'true' && !stockLikes[req.query.stock]['ips'].includes(userIp)) {
             stockLikes[req.query.stock]['likes']++
-            stockLikes[req.query.stock]['ips'].push(req.ip)
+            stockLikes[req.query.stock]['ips'].push(userIp)
           }
           // Do nothings
         } else {
           if (req.query.like === 'true') {
             stockLikes[req.query.stock] = {
               likes: 1,
-              ips: [req.ip],
+              ips: [userIp],
             }
           } else {
             stockLikes[req.query.stock] = {
@@ -50,30 +53,30 @@ module.exports = function (app) {
       } else if (Array.isArray(req.query.stock)) {
         // 'likes' system
         if (stockLikes.hasOwnProperty(req.query.stock)) {
-          if (req.query.like === 'true' && !stockLikes[req.query.stock]['ips'].includes(req.ip)) {
+          if (req.query.like === 'true' && !stockLikes[req.query.stock]['ips'].includes(userIp)) {
             stockLikes[req.query.stock[0]]['likes']++
-            stockLikes[req.query.stock[0]]['ips'].push(req.ip)
+            stockLikes[req.query.stock[0]]['ips'].push(userIp)
             stockLikes[req.query.stock[1]]['likes']++
-            stockLikes[req.query.stock[1]]['ips'].push(req.ip)
+            stockLikes[req.query.stock[1]]['ips'].push(userIp)
           }
           // Do nothings
         } else {
           if (req.query.like === 'true') {
             stockLikes[req.query.stock[0]] = {
               likes: 1,
-              ips: [req.ip],
+              ips: [userIp],
             }
             stockLikes[req.query.stock[1]] = {
               likes: 1,
-              ips: [req.ip],
+              ips: [userIp],
             }
           } else {
             stockLikes[req.query.stock[0]] = {
-              likes: 6,
+              likes: 0,
               ips: [],
             }
             stockLikes[req.query.stock[1]] = {
-              likes: 2,
+              likes: 0,
               ips: [],
             }
           }
@@ -94,7 +97,7 @@ module.exports = function (app) {
       } else {
         res.json({ stockData: 'query is empty' })
       }
-      // console.log(stockLikes)
+      console.log(stockLikes)
     }
   )
 }
